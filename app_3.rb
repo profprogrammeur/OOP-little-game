@@ -14,8 +14,9 @@ puts "     -------------------------------------------------"
 puts "Salutation Humain quel est ton nom"
 puts "Entrez votre nom"
 print "> "
-human_name = gets.chomp
-user = HumanPlayer.new(human_name)
+# human_name = gets.chomp
+# user = HumanPlayer.new(human_name)
+user = gets.chomp
 
 
 my_game = Game.new(user)
@@ -27,4 +28,4 @@ while my_game.is_still_ongoing? == true do
   my_game.enemies_attack
 end
 
-my_game.end
+my_game.end_game

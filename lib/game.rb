@@ -58,7 +58,7 @@ class Game
   def enemies_attack
     @enemies.each do |playerX|
       if playerX.life_points > 0 
-          playerX.attacks(@human_player.name)
+          playerX.attacks(@human_player)
       else 
           kill_player
       end
