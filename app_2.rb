@@ -4,18 +4,15 @@ Bundler.require
 require_relative 'lib/game'
 require_relative 'lib/player'
 
-
-
 puts "     -------------------------------------------------"
-puts "     |Bienvenue sur 'CLASH OF POO' !                 |"
+puts "     |Bienvenue sur  'OOP-Little Role-Playing Game' !|"
 puts "     |Le but du jeu est d'être le dernier survivant !|"
 puts "     -------------------------------------------------"
-
-
 
 # Initialisation du joueur :
 puts "Salutation Humain quel est ton nom"
 puts "Entrez votre nom"
+print "> "
 human_name = gets.chomp
 user = HumanPlayer.new(human_name)
 
@@ -25,47 +22,41 @@ player2 = Player.new("José")
 enemies = []
 enemies += [player1, player2]
 
-
-
-
+#affiche le menu de sélection et les points des joueurs
 def user_action(user,enemies)  
-    puts ""
-    puts "Quelle action veux-tu effectuer ?"
-    puts "a - chercher une meilleure arme"
-    puts "s - chercher à se soigner "
-    puts "attaquer un joueur en vue :"    
-    puts "0 - Josiane a 10 points de vie"
-    puts "1 - José a 10 points de vie"
-    good_choice = true
-    while good_choice == true    
-      choice = gets.chomp 
-      case choice
-          when "a" then user.search_weapon
-            good_choice = false
-          when "s" then user.search_health_pack
-            good_choice = false
-          when "0" then user.attacks(enemies[0])
-            good_choice = false
-          when "1" then user.attacks(enemies[1])
-            good_choice = false
+  puts "----------------------------------"
+  puts "Quelle action veux-tu effectuer ?"
+  puts "a - chercher une meilleure arme"
+  puts "s - chercher à se soigner "
+  puts "attaquer un joueur en vue :"    
+  puts "0 - Josiane a #{enemies[0].life_points} points de vie"
+  puts "1 - José a #{enemies[1].life_points} points de vie"
+  puts "Tu as #{user.life_points} points de vie"
+  print "> "
+  
+    choice = gets.chomp 
+    case choice
+      when "a" then user.search_weapon
+      when "s" then user.search_health_pack
+      when "0" then user.attacks(enemies[0])
+      when "1" then user.attacks(enemies[1])
       else
-          good_choice = true
-          puts "Tu n'as pas appeler la bonne fonction"
-      end
+        puts "Tu n'as pas appelé la bonne fonction"
+        puts""
     end
+  
 end
 
+#fait jouer tous les ennemis chacun à leur tour
 def enemies_action(user, enemies)
-    enemies.each do |playerX|
-        if playerX.life_points > 0 
-            playerX.attacks(user)
-        end
+  enemies.each do |playerX|
+    if playerX.life_points > 0 
+        playerX.attacks(user)
     end
+  end
 end
 
-
-
-
+#annonce la fin de partie
 def game_end(user)
   puts "La partie est finie" 
   if user.life_points > 0
@@ -75,13 +66,13 @@ def game_end(user)
   end
 end
 
-
+#lance la phase de combat : action du joueur puis attaques des enemies
 def fight_phase(user, enemies)
-    while user.life_points > 0 && (enemies[0].life_points > 0 || enemies[1].life_points >0)
-        user_action(user, enemies)
-        enemies_action(user, enemies)
-    end
-    game_end(user)
+  while user.life_points > 0 && (enemies[0].life_points > 0 || enemies[1].life_points >0)
+      user_action(user, enemies)
+      enemies_action(user, enemies)
+  end
+  game_end(user)
 end
 
 fight_phase(user, enemies)
